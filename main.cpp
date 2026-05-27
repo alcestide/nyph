@@ -45,7 +45,36 @@ int main(int argc, char* argv[]){
                 is_running= false;
             }
         }
+
+        float current_time = (SDL_GetTicks() - start_time) / 1000.0f;
+
+        for (int y = 0; y < HEIGHT; ++y) {
+            for (int x = 0; x < WIDTH; ++x) {
+                float r,g,b;
+
+                shader_logic(static_cast<float>(x), static_cast<float>(y), current_time, r, g, b);
+
+                uint8_t ir = static_cast<uint8_t>(r * 255.0f);
+                uint8_t ig = static_cast<uint8_t>(g * 255.0f);
+                uint8_t ib = static_cast<uint8_t>(r * 255.0f);
+
+                uint32_t pixel_color = (255 << 24) | (ir << 16) | (ig << 8) | ib;
+
+                pixels[y * WIDTH + x] = pixel_color;
+            }
+        }
+
+        SDL_UpdateTexture(framebuffer_texture, NULL, pixels, WIDTH * sizeof(uint32_t));
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, framebuffer_texture, NULL, NULL);
+        SDL_RenderPresent(renderer);
     }
+
+    delete[] pixels;
+    SDL_DestroyTexture(framebuffer_texture);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 
     return 0;
 }
