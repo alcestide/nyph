@@ -56,7 +56,7 @@ int main(int argc, char* argv[]){
 
                 uint8_t ir = static_cast<uint8_t>(r * 255.0f);
                 uint8_t ig = static_cast<uint8_t>(g * 255.0f);
-                uint8_t ib = static_cast<uint8_t>(r * 255.0f);
+                uint8_t ib = static_cast<uint8_t>(b * 255.0f);
 
                 uint32_t pixel_color = (255 << 24) | (ir << 16) | (ig << 8) | ib;
 
